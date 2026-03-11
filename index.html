@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0;padding:0;box-sizing:border-box; }
+  :root { --hot-pink:#ff2d78;--pink:#ff6b9d;--light-pink:#ffb3cc; }
+  html { scroll-behavior:smooth;scroll-snap-type:y mandatory; }
+  body { font-family:'Nunito',sans-serif;background:#ffb3c6;overflow-x:hidden; }
+
+  .section {
+    min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    scroll-snap-align:start;position:relative;overflow:hidden;padding:20px;
+  }
+
+  /* Floating hearts */
+  .hearts-bg { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden; }
+  .heart-float { position:absolute;animation:floatUp linear infinite;opacity:0.3; }
+  @keyframes floatUp {
+    0%   { transform:translateY(110vh) rotate(0deg);opacity:0.4; }
+    100% { transform:translateY(-10vh) rotate(360deg);opacity:0; }
+  }
+
+  /* Card */
+  .card {
+    background:rgba(255,255,255,0.28);backdrop-filter:blur(12px);
+    border-radius:30px;padding:36px 28px;text-align:center;
+    max-width:480px;width:100%;position:relative;z-index:2;
+    box-shadow:0 20px 60px rgba(255,45,120,0.2),inset 0 0 0 1px rgba(255,255,255,0.5);
+  }
+
+  /* GIF blob container */
+  .gif-blob {
+    width:210px;height:210px;
+    background:rgba(255,255,255,0.35);
+    border-radius:60% 40% 55% 45%/50% 60% 40% 50%;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 24px;overflow:hidden;
+    animation:blobPulse 4s ease-in-out infinite;
+  }
+  @keyframes blobPulse {
+    0%,100% { border-radius:60% 40% 55% 45%/50% 60% 40% 50%; }
+    50%     { border-radius:40% 60% 45% 55%/60% 40% 60% 40%; }
+  }
+  .gif-blob img { width:175px;height:175px;object-fit:cover;border-radius:14px;display:block; }
+
+  /* Question */
+  .question {
+    font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:700;
+    color:white;letter-spacing:2px;text-transform:uppercase;
+    text-shadow:0 2px 10px rgba(255,45,120,0.4);margin-bottom:28px;
+  }
+
+  /* Buttons */
+  .btn-group { display:flex;gap:16px;justify-content:center;flex-wrap:wrap; }
+  .btn {
+    padding:14px 36px;border:none;border-radius:50px;
+    font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;
+    letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;text-transform:uppercase;
+  }
+  .btn-yes { background:linear-gradient(135deg,var(--hot-pink),var(--pink));color:white;box-shadow:0 8px 25px rgba(255,45,120,0.4); }
+  .btn-yes:hover { transform:translateY(-3px) scale(1.05);box-shadow:0 12px 30px rgba(255,45,120,0.5); }
+  .btn-no  { background:linear-gradient(135deg,#ff8fab,#ffb3cc);color:white;box-shadow:0 8px 25px rgba(255,100,150,0.3); }
+  .btn-no:hover { transform:translateY(-3px) scale(1.05); }
+  .btn-disabled { background:rgba(200,200,200,0.5)!important;color:rgba(255,255,255,0.5)!important;cursor:not-allowed!important;box-shadow:none!important;pointer-events:none; }
+
+  /* Section backgrounds */
+  #s1 { background:linear-gradient(160deg,#ffb3c6 0%,#ffc8d8 50%,#ffafc5 100%); }
+  #s2 { background:linear-gradient(160deg,#ffc2d1 0%,#ffb3c6 50%,#ffa8bf 100%); }
+  #s3 { background:linear-gradient(160deg,#ffb3c6 0%,#ffd6e4 50%,#ffb3c6 100%); }
+  #s4 { background:linear-gradient(160deg,#ffa8bf 0%,#ffbfcf 50%,#ffa8bf 100%); }
+  #s5 { background:linear-gradient(160deg,#ffbfcf 0%,#ffc8d8 50%,#ffafc5 100%); }
+  #s6 { background:linear-gradient(160deg,#ffafc5 0%,#ffb8c8 50%,#ffa8bf 100%); }
+  #s7 { background:linear-gradient(160deg,#ffb3c6 0%,#ffc2d1 50%,#ffb3c6 100%); }
+  #s8 { background:linear-gradient(160deg,#ffa8bf 0%,#ffd6e4 50%,#ffa8bf 100%);gap:30px; }
+
+  /* Letter */
+  .letter-card {
+    background:rgba(255,240,245,0.93);border-radius:20px;padding:40px;
+    max-width:560px;width:100%;position:relative;z-index:2;
+    box-shadow:0 20px 60px rgba(255,45,120,0.2);font-family:'Caveat',cursive;
+  }
+  .letter-card h2 { font-size:2rem;color:var(--hot-pink);margin-bottom:20px; }
+  .letter-card p  { font-size:1.25rem;color:#a0405e;line-height:1.8;margin-bottom:16px; }
+  .letter-sign    { font-size:1.4rem;color:var(--hot-pink);font-weight:700;margin-top:20px; }
+
+  /* Polaroids */
+  .photos-row { display:flex;gap:20px;justify-content:center;flex-wrap:wrap;z-index:2; }
+  .polaroid {
+    background:white;padding:12px 12px 40px;border-radius:4px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);transform:rotate(-3deg);
+    transition:transform 0.3s ease;animation:polaroidIn 0.8s ease both;
+  }
+  .polaroid:nth-child(2) { transform:rotate(3deg);animation-delay:0.2s; }
+  .polaroid:hover { transform:rotate(0deg) scale(1.05)!important; }
+  @keyframes polaroidIn {
+    from { opacity:0;transform:translateY(30px) rotate(-3deg); }
+    to   { opacity:1; }
+  }
+  .polaroid img { width:180px;height:180px;object-fit:cover;display:block; }
+  .polaroid-label { text-align:center;font-family:'Caveat',cursive;font-size:1rem;color:#999;margin-top:8px; }
+
+  /* Music */
+  .music-player {
+    background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:20px;
+    padding:16px 24px;display:flex;align-items:center;gap:16px;
+    max-width:340px;width:100%;z-index:2;box-shadow:0 10px 40px rgba(0,0,0,0.3);
+  }
+  .vinyl {
+    width:56px;height:56px;flex-shrink:0;border-radius:50%;
+    background:radial-gradient(circle,#333 30%,#111 30%,#111 35%,#222 35%,#222 60%,#111 60%);
+    animation:spin 3s linear infinite;animation-play-state:paused;
+    box-shadow:0 0 20px rgba(255,45,120,0.5);
+  }
+  .vinyl.playing { animation-play-state:running; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .music-title  { color:white;font-weight:700;font-size:0.95rem; }
+  .music-artist { color:rgba(255,255,255,0.5);font-size:0.8rem;margin-top:2px;display:flex;align-items:center;gap:6px; }
+  .music-controls { display:flex;gap:10px;align-items:center;margin-top:10px; }
+  .play-btn {
+    background:linear-gradient(135deg,var(--hot-pink),var(--pink));border:none;
+    border-radius:50%;width:36px;height:36px;color:white;font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 15px rgba(255,45,120,0.4);transition:transform 0.2s;
+  }
+  .play-btn:hover { transform:scale(1.1); }
+  .note-anim { animation:noteFloat 1.5s ease-in-out infinite;display:inline-block; }
+  @keyframes noteFloat {
+    0%,100%{ transform:translateY(0) rotate(-10deg);opacity:1; }
+    50%    { transform:translateY(-10px) rotate(10deg);opacity:0.5; }
+  }
+
+  /* Misc */
+  .hidden { display:none!important; }
+  .sparkle { position:fixed;pointer-events:none;z-index:9999;font-size:20px;animation:sparkleAnim 0.8s ease forwards; }
+  @keyframes sparkleAnim {
+    0%   { opacity:1;transform:translate(0,0) scale(1); }
+    100% { opacity:0;transform:translate(var(--tx),var(--ty)) scale(0); }
+  }
+  .hb-title {
+    font-family:'Caveat',cursive;font-size:3.5rem;font-weight:700;color:white;
+    text-shadow:0 4px 20px rgba(255,45,120,0.5);
+    margin-bottom:24px;letter-spacing:2px;text-align:center;
+    animation:titleGlow 2s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow {
+    from { text-shadow:0 4px 20px rgba(255,45,120,0.5),0 0 40px rgba(255,100,150,0.3); }
+    to   { text-shadow:0 4px 30px rgba(255,45,120,0.9),0 0 60px rgba(255,150,180,0.6); }
+  }
+  .page-transition {
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:radial-gradient(circle,#ff6b9d,#ff2d78);
+    z-index:9998;opacity:0;pointer-events:none;transition:opacity 0.3s ease;
+  }
+  .page-transition.flash { opacity:1; }
+  .scroll-hint {
+    position:absolute;bottom:20px;font-size:0.8rem;
+    color:rgba(255,255,255,0.7);letter-spacing:2px;text-transform:uppercase;
+    animation:bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);} }
+  .gif-dance { animation:danceWrap 0.5s ease-in-out infinite alternate;display:inline-block; }
+  @keyframes danceWrap {
+    from { transform:rotate(-8deg) translateY(0); }
+    to   { transform:rotate(8deg) translateY(-8px); }
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.3);} }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsBg"></div>
+<div class="page-transition" id="pageTransition"></div>
+
+<!-- ─────────────────────────────────────
+     S1 · SURPRISE? (Gift / cat-in-box)
+     YES disabled; NO unlocks it
+───────────────────────────────────────── -->
+<section class="section" id="s1">
+  <div class="card">
+    <div class="gif-blob" style="width:220px;height:220px;">
+      <!-- Cat popping out of cardboard box -->
+<!--      <img style="width:200px;height:200px;object-fit:cover;border-radius:14px;"-->
+<!--           src="https://media.tenor.com/6haSq9ZQbu4AAAAM/cats-boxes.gif"-->
+<!--           alt="cat peeking from box"-->
+<!--           onerror="this.style.fontSize='90px';this.style.lineHeight='1';this.outerHTML='<span style=font-size:90px>🎁🐱</span>'">-->
+      <div class="tenor-gif-embed" data-postid="3993825760034290342" data-share-method="host" data-aspect-ratio="1"
+           data-width="100%"><a
+              href="https://tenor.com/view/christmas-birthday-xmas-surprise-gift-gif-3993825760034290342">Christmas
+        Birthday Sticker</a>from <a href="https://tenor.com/search/christmas-stickers">Christmas Stickers</a></div>
+      <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+    <p class="question">Ready for a small surprise? 🎀</p>
+    <div class="btn-group">
+      <button class="btn btn-yes" style="pointer-events: none;" id="yesBtn1">YES</button>
+      <button class="btn btn-no" id="noBtn1" onclick="handleNo1()">NO</button>
+    </div>
+  </div>
+  <span class="scroll-hint">↓ scroll ↓</span>
+</section>
+
+<!-- ─────────────────────────────────────
+     S2 · HOW DARE YOU (gun cat)
+───────────────────────────────────────── -->
+<section class="section hidden" id="s2">
+  <div class="card">
+    <div class="gif-blob">
+      <!-- Sassy / angry cat with gun -->
+      <img src="https://media.tenor.com/_09v4ZEZP8cAAAAM/angry-cat-sassy-cat.gif"
+           alt="angry cat with gun"
+           onerror="this.outerHTML='<span style=font-size:80px>😾🔫</span>'">
+    </div>
+    <p class="question">HOW DARE YOU, CLICK YES 😤</p>
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goToSection(3)">YES fine… 😒</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────
+     S3 · IT'S YOUR BIRTHDAY! (praying kitten)
+───────────────────────────────────────── -->
+<section class="section hidden" id="s3">
+  <div class="card">
+    <div class="gif-blob" style="background:transparent; border-radius: 0;">
+      <!-- Jumping Good Morning Cat -->
+      <div class="tenor-gif-embed" data-postid="3057228474552902029" data-share-method="host" data-aspect-ratio="0.566845" data-width="100%"><a href="https://tenor.com/view/good-morning-gif-3057228474552902029">Good Morning GIF</a>from <a href="https://tenor.com/search/good+morning-gifs">Good Morning GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+    <p class="question">Oh, it's your Birthday today! 🎂</p>
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goToSection(7)">YES!! 🎉</button>
+      <button class="btn btn-no" onclick="goToSection(2)">NO</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────
+     S4 · I LOVE YOUR SMILE (shy kitten)
+───────────────────────────────────────── -->
+<section class="section hidden" id="s4">
+  <div class="card">
+    <div class="gif-blob" style="background:transparent; border-radius: 0;">
+      <!-- Cute Staring Cat -->
+      <div class="tenor-gif-embed" data-postid="7956809724572065030" data-share-method="host" data-aspect-ratio="0.639535" data-width="100%"><a href="https://tenor.com/view/cute-staring-cat-big-eyes-gif-7956809724572065030">Cute Staring Cat GIF</a>from <a href="https://tenor.com/search/cute-gifs">Cute GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+    <p class="question">Do you know, I love your smile? 😊</p>
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goToSection(3)">YES 💕</button>
+      <button class="btn btn-no" onclick="goToSection(3)">Ofc YES 🥰</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────
+     S5 · THANKS (kitten close-up big eyes)
+───────────────────────────────────────── -->
+<section class="section hidden" id="s5">
+  <div class="card">
+    <div class="gif-blob" style="background:transparent; border-radius: 0;">
+      <!-- Kitty Shy Meme -->
+      <div class="tenor-gif-embed" data-postid="6675337771891431422" data-share-method="host" data-aspect-ratio="1.17582" data-width="100%"><a href="https://tenor.com/view/kitty-shy-blush-gif-6675337771891431422">Kitty Shy Meme</a>from <a href="https://tenor.com/search/kitty-memes">Kitty Memes</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+    <p class="question">THANKS!! 💖</p>
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goToSection(4)">CLICK HERE 🎀</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────
+     S6 · DO YOU LOVE ME? (dancing kitten)
+───────────────────────────────────────── -->
+<section class="section hidden" id="s6">
+  <div class="card">
+    <div class="gif-blob" style="background:transparent;">
+      <!-- Peach Shy Cat -->
+      <div class="tenor-gif-embed" data-postid="20764850" data-share-method="host" data-aspect-ratio="0.865625" data-width="100%"><a href="https://tenor.com/view/peach-shy-cat-gif-20764850">Peach Shy Sticker</a>from <a href="https://tenor.com/search/peach-stickers">Peach Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+    <p class="question">Do you love me? 💝</p>
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goToSection(5)">YES 💗</button>
+      <button class="btn btn-no" id="noBtn6" onclick="handleNo6(event)">NO</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────
+     S7 · LOVE LETTER
+───────────────────────────────────────── -->
+<section class="section hidden" id="s7">
+  <div class="letter-card">
+    <h2>Happy Birthday, My Love 💝</h2>
+    <p>Every single day with you feels like a small celebration — but today, the entire world feels extra lucky, because YOU were born. 🌸</p>
+    <p>You are the laughter in my quiet days, the warmth in my coldest nights, and the kind of magic I never expected to find in real life. You make ordinary Tuesday evenings feel like movies I never want to end.</p>
+    <p>I admire your strength, the gentleness of your heart, and the way you love so freely and honestly. The way your eyes light up when you talk about something you love? That's my favourite thing in the universe. 🌙</p>
+    <p>Thank you for choosing me, for being patient with me, for making me feel safe in a way I didn't know I needed. You are home to me — more than any place, any time, any thing. 🏡</p>
+    <p>I promise to be right here, celebrating every version of you — the messy mornings, the loud laughs, the in-between moments, and every birthday from here on. 🎂</p>
+    <div class="letter-sign">With all my love,<br>Always yours 🩷</div>
+  </div>
+  <div style="margin-top:20px;z-index:2;">
+    <button class="btn btn-yes" onclick="goToSection(8)" style="font-size:0.9rem;">See our memories 📸</button>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────
+     S8 · PHOTOS + MUSIC
+───────────────────────────────────────── -->
+<section class="section hidden" id="s8">
+  <div class="hb-title">Happy Birthday 🎂💕</div>
+
+  <div class="photos-row" style="margin-bottom:24px;">
+    <div class="polaroid">
+      <!-- Local image 1 -->
+      <img src="images/Image_20260311_223727.jpeg" alt="Our photo 1">
+      <div class="polaroid-label">us 🩷</div>
+    </div>
+    <div class="polaroid">
+      <!-- Local image 2 -->
+      <img src="images/Image_20260311_223820.jpeg" alt="Our photo 2">
+      <div class="polaroid-label">always 💕</div>
+    </div>
+  </div>
+
+  <div class="music-player">
+    <div class="vinyl" id="vinyl"></div>
+    <div style="flex:1;">
+      <div class="music-title">I Love You💕</div>
+      <div class="music-artist"><span>♪ Playing for you</span><span class="note-anim">♫</span></div>
+      <div class="music-controls">
+        <button class="play-btn" id="playBtn" onclick="toggleMusic()">▶</button>
+        <span style="color:var(--light-pink);font-size:0.8rem;">Open Spotify below 🎵</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;z-index:2;text-align:center;">
+    <a href="https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v" target="_blank"
+       style="color:white;font-family:'Nunito',sans-serif;font-size:0.85rem;letter-spacing:1px;
+              text-decoration:none;background:rgba(30,215,96,0.85);padding:10px 22px;
+              border-radius:50px;display:inline-block;font-weight:700;
+              box-shadow:0 4px 15px rgba(30,215,96,0.3);">
+      🎵 Open in Spotify
+    </a>
+  </div>
+  <div style="margin-top:20px;font-size:2.5rem;z-index:2;animation:pulse 1s ease-in-out infinite;">🩷</div>
+</section>
+
+<script>
+  /* Floating hearts */
+  const emo = ['🩷','💕','💗','💖','🌸','✨','💝','🌷'];
+  const bg  = document.getElementById('heartsBg');
+  for (let i=0;i<22;i++){
+    const el = document.createElement('span');
+    el.className = 'heart-float';
+    el.textContent = emo[Math.floor(Math.random()*emo.length)];
+    el.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*15}s;font-size:${14+Math.random()*20}px`;
+    bg.appendChild(el);
+  }
+
+  /* Sparkle on click */
+  document.addEventListener('click', e => {
+    for(let i=0;i<6;i++){
+      const s=document.createElement('span');
+      s.className='sparkle';
+      s.textContent=emo[Math.floor(Math.random()*emo.length)];
+      s.style.cssText=`left:${e.clientX}px;top:${e.clientY}px`;
+      const a=Math.random()*Math.PI*2,d=40+Math.random()*60;
+      s.style.setProperty('--tx',Math.cos(a)*d+'px');
+      s.style.setProperty('--ty',Math.sin(a)*d+'px');
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),800);
+    }
+  });
+
+  /* Navigation */
+  let cur = 1;
+  function goToSection(n) {
+    const ov = document.getElementById('pageTransition');
+    ov.classList.add('flash');
+    setTimeout(()=>{
+      document.getElementById('s'+cur).classList.add('hidden');
+      const next = document.getElementById('s'+n);
+      next.classList.remove('hidden');
+      next.scrollIntoView({behavior:'smooth'});
+      cur = n;
+      ov.classList.remove('flash');
+
+      // Auto-play music when entering S8
+      if (n === 8 && !playing) {
+        toggleMusic();
+      }
+    }, 300);
+  }
+
+  /* S1 — NO button logic */
+  function handleNo1(){
+    // Inject the new GIF provided
+    const blob = document.querySelector('#s1 .gif-blob');
+    blob.innerHTML = '<div class="tenor-gif-embed" data-postid="5459893182316367885" data-share-method="host" data-aspect-ratio="0.779116" data-width="100%"><a href="https://tenor.com/view/cute-cat-hands-up-close-up-gun-gif-5459893182316367885">Cute Cat GIF</a>from <a href="https://tenor.com/search/cute-gifs">Cute GIFs</a></div>';
+    
+    // Execute the Tenor script so the embed works correctly
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://tenor.com/embed.js';
+    document.body.appendChild(script);
+
+    // Update the question text
+    document.querySelector('#s1 .question').textContent = "HOW DARE YOU CLICK NO 😤";
+
+    // Re-configure buttons
+    const yesBtn=document.getElementById('yesBtn1');
+    const noBtn=document.getElementById('noBtn1');
+    
+    noBtn.style.display = 'none'; // Force them to say YES
+    yesBtn.classList.remove('btn-disabled'); // Make YES clickable
+    yesBtn.style.pointerEvents = 'auto';
+    yesBtn.onclick = () => goToSection(6);
+  }
+
+  /* S6 — NO button runs away */
+  function handleNo6(e){
+    const btn=e.target;
+    btn.style.transition='transform 0.5s ease';
+    btn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*100-50}px)`;
+    btn.textContent='LIAR 😂';
+    setTimeout(()=>{btn.style.transform='';btn.textContent='You liar!!';},900);
+  }
+
+  /* Music player */
+  let playing = false;
+  const audio = new Audio("songs/Kaattuchembakam - SouthMelody.mp3");
+  audio.loop = true;
+
+  function toggleMusic(){
+    playing = !playing;
+    document.getElementById('vinyl').classList.toggle('playing', playing);
+    document.getElementById('playBtn').textContent = playing ? '⏸' : '▶';
+    
+    if (playing) {
+      // Ensure it starts from 45 seconds if it was just loaded
+      if (audio.currentTime === 0) {
+        audio.currentTime = 45;
+      }
+      audio.play().catch(e => console.log("Audio playback was prevented by browser policy", e));
+    } else {
+      audio.pause();
+    }
+  }
+</script>
+</body>
+</html>
